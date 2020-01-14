@@ -1,10 +1,12 @@
 {
   "name": "react8632",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,22 @@
   "bugs": {
     "url": "https://github.com/devfurlan/tweelum/issues"
   },
-  "homepage": "https://github.com/devfurlan/tweelum#readme"
+  "homepage": "https://github.com/devfurlan/tweelum#readme",
+  "devDependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "^3.3.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
