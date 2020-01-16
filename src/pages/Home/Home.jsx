@@ -1,28 +1,41 @@
-import React from 'react'
-import { Tweet } from '../../components/Tweet/Tweet.jsx'
+import React, { useState, useEffect, useContext } from 'react'
+import {
+    Tweet,
+    Cabecalho,
+    NavMenu,
+    Dashboard,
+    Widget,
+    TrendsArea,
+    Form
+} from '../../components/index.js'
 
-export function Home () {
+import { Contexto as NotificacaoContexto } from '../../components/Notificacao/Notificacao.jsx'
 
-    const infoTweet1 = {
+const listaInicialFake = [
+    {
+        id: 1,
         conteudo: 'Olar. Mussum Ipsum, cacilds vidis litro abertis.Detraxit consequat et quo num tendi nada.Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.',
         nomeCompletoUsuario: 'Orlindo Aragão',
         nomeUsuario: 'orar',
         qtLikes: 2
-    }
-    const infoTweet2 = {
+    },
+    {
+        id: 2,
         conteudo: 'Turo bão? Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Casamentiss faiz malandris se pirulitá.',
         nomeCompletoUsuario: 'Jonas Brother',
         nomeUsuario: 'jobro',
         qtLikes: 4
-    }
-    const infoTweet3 = {
+    },
+    {
+        id: 3,
         conteudo: "Alô, alô, Terezinha! Mussum Ipsum, cacilds vidis litro abertis. Admodum accumsan disputationi eu sit. Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis. Leite de capivaris.",
         nomeCompletoUsuario: 'Antonio Carlos',
         nomeUsuario: 'mussum',
         qtLikes: 66
     }
-
-    const listaTweet = [
+]
+/*
+    const listaTweets = [
         <Tweet { ...infoTweet1 } key = "1">
             {infoTweet1.conteudo}
         </Tweet>,
@@ -42,80 +55,64 @@ export function Home () {
             ]
         )
     ]
+*/
 
+
+export function Home () {
+
+    // Hook setState
+    const [listaTweets, setListaTweets] = useState(listaInicialFake)
+
+    const { setMsg } = useContext(NotificacaoContexto)
+
+    /*
+    useEffect(() => {
+        TweetService.carrega()
+            .then(listaServidor => {
+                setListaTweets([...listaServidor, ...listaTweets])
+            })
+    }, [])
+    */
+
+    useEffect(() => {
+        setTimeout(() => {
+            setMsg('')
+        }, 5000)
+    })
+
+    function adicionaTweet(novoTweet){
+        setListaTweets( [ novoTweet, ...listaTweets ] )
+    }
 
     return (
+
         <div>
-            <header className="cabecalho">
-                <div className="cabecalho__container container">
-                    <h1 className="cabecalho__logo">
-                        <a href="/">Twitelum</a>
-                    </h1>
-                    <nav className="navMenu">
-                        <ul className="navMenu__lista">
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/">
-                                    Bem vindo(a): <br />
-                                    <strong> @alumna</strong>
-                                </a>
-                            </li>
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/">
-                                    Página Inicial
-                        </a>
-                            </li>
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/hashtags">
-                                    Hashtags
-                        </a>
-                            </li>
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/logout">
-                                    Logout
-                        </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </header>
+            <Cabecalho>
+                <NavMenu> </NavMenu>
+            </Cabecalho>
 
             <div className="container">
+                <Dashboard>
+                    <Widget>
+                        <Form adicionaTweet={ adicionaTweet } />
+                    </Widget>
+                    <Widget>
+                        <TrendsArea></TrendsArea>
+                    </Widget>
+                </Dashboard>
 
-                <div className="dashboard">
-                    <div className="widget">
-
-                        <form className="novoTweet">
-                            <div className="novoTweet__editorArea">
-                                <span className="novoTweet__status">0/140</span>
-                                <textarea className="novoTweet__editor" placeholder="O que está acontecendo?"></textarea>
-                            </div>
-                            <button type="submit" className="novoTweet__envia">Tweetar</button>
-                        </form>
-
-                    </div>
-                    <div className="widget">
-                        <div className="trendsArea">
-                            <h2 className="trendsArea__titulo widget__titulo">Trends Brasil</h2>
-                            <ol className="trendsArea__lista">
-                                <li><a href="/">#react</a></li>
-                                <li><a href="/">#reactHooks</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="dashboard dashboard__centro">
-                    <div className="widget">
+                <Dashboard posicao="centro">
+                    <Widget>
                         <div className="tweetsArea">
-
-                            { listaTweet }
-
+                            {listaTweets.map(infoTweet =>
+                                <Tweet {...infoTweet} key={infoTweet.id}>
+                                    {infoTweet.conteudo}
+                                </Tweet>
+                            )}
                         </div>
-                    </div>
-                </div>
-
+                    </Widget>
+                </Dashboard>
             </div>
-
         </div>
     )
 }
